@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color pallete */
+
+  --color-primary-1: #1890ff;
+  --color-primary-2: #339cfe;
+  --color-primary-3: #40a9ff;
+  --color-primary-4: #69c0ff;
+  --color-primary-5: #91d5ff;
+  --color-primary-6: #bae7ff;
+  --color-primary-7: #c3ecff;
+  --color-primary-8: #e6f7ff;
+  --color-primary-9: #f0faff;
+  --color-primary-10: #f5fcff;
+
+  --color-neutral-1: #000;
+  --color-neutral-2: #0f0f0f;
+  --color-neutral-3: #141414;
+  --color-neutral-4: #1f1f1f;
+  --color-neutral-5: #222526;
+  --color-neutral-6: #262626;
+  --color-neutral-7: #343330;
+  --color-neutral-8: #434343;
+  --color-neutral-9: #545454;
+  --color-neutral-10: #595959;
+  --color-neutral-11: #8c8c8c;
+  --color-neutral-12: #bfbfbf;
+  --color-neutral-13: #d9d9d9;
+  --color-neutral-14: #e5e6e8;
+  --color-neutral-15: #e9edf5;
+  --color-neutral-16: #f0f0f0;
+  --color-neutral-17: #f5f5f5;
+  --color-neutral-18: #fafafa;
+
+  --color-warning-1: #faad14;
+  --color-warning-2: #ffe58f;
+  --color-warning-3: #fff7e6;
+
+  --color-error-1: #ff7875;
+  --color-error-2: #ffccc7;
+  --color-error-3: #fff1f0;
+
+  --color-success-1: #52c41a;
+  --color-danger-1: #ff4d4f;
+
+  --color-background: #f3f4f7;
+  --color-background-2: #f9f0ff;
+  --color-border-2: #d3adf7;
+
+  /* Border raduis */
+
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-extra-large: 16px;
+
+  /* Font sizes */
+
+  --text-small: 12px;
+  --text-medium: 14px;
+  --text-large: 16px;
+}
+
+body {
+  background-color: var(--color-neutral-16);
+}
+
+.react-grid-layout {
+  position: relative;
+  transition: height 200ms ease;
+}
+.react-grid-item {
+  transition: all 200ms ease;
+  transition-property: left, top;
+}
+.react-grid-item.cssTransforms {
+  transition-property: transform;
+}
+.react-grid-item.resizing {
+  z-index: 1;
+  will-change: width, height;
+}
+
+.react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 3;
+  will-change: transform;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: red;
+  opacity: 0.2;
+  transition-duration: 100ms;
+  z-index: 2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.react-grid-item > .react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 8px;
+  right: 8px;
+  background-position: bottom right;
+  border-radius: 0 0 var(--radius-large);
+  border-right: 1px solid var(--color-neutral-10);
+  border-bottom: 1px solid var(--color-neutral-10);
+  padding: 0 3px 3px 0;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  cursor: se-resize;
+}
