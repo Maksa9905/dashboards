@@ -1,26 +1,46 @@
-import ReactGridLayout, { Layout } from "react-grid-layout";
+import { Responsive, WidthProvider } from "react-grid-layout";
 import { Widget } from "./Widget";
+import { WidgetsManager } from "./WidgetsManager";
+import { useMemo } from "react";
+import { useUnit } from "effector-react";
+import { $editMode, $widgets, setWidgets } from "../model/model";
+import { WidgetLayout } from "../model/types";
+import { mapWidgetToLayout } from "../model/mappers";
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const Dashboards = () => {
-  const layout: (Layout & { title: string })[] = [
-    { i: "Widget1", x: 0, y: 0, w: 1, h: 2, title: "Widget 1" },
-    { i: "Widget2", x: 1, y: 0, w: 1, h: 1, title: "Widget 2" },
-    { i: "Widget3", x: 2, y: 0, w: 1, h: 1, title: "Widget 3" },
-  ];
+  const widgets = useUnit($widgets);
+  const isEditing = useUnit($editMode);
+
+  const layout = useMemo<WidgetLayout[]>(
+    () =>
+      widgets.map((widget) => ({
+        ...mapWidgetToLayout(widget),
+        static: !isEditing,
+      })),
+    [widgets, isEditing]
+  );
 
   return (
-    <ReactGridLayout
-      layout={layout}
-      cols={4}
-      autoSize
-      rowHeight={100}
-      width={1200}
-    >
-      {layout.map((el) => (
-        <div key={el.i}>
-          <Widget title={el.title} id={el.i} />
-        </div>
-      ))}
-    </ReactGridLayout>
+    <div className="flex flex-col gap-2.5">
+      {isEditing && <WidgetsManager />}
+      <ResponsiveGridLayout
+        width={window.innerWidth}
+        onLayoutChange={setWidgets}
+        breakpoints={{ lg: 1200 }}
+        layouts={{ lg: layout }}
+        cols={{ lg: 5 }}
+        autoSize
+        rowHeight={100}
+        isResizable={isEditing}
+      >
+        {layout.map((el) => (
+          <div className={isEditing ? "" : "hide-resize-handle"} key={el.i}>
+            <Widget title={el.title} id={el.i} />
+          </div>
+        ))}
+      </ResponsiveGridLayout>
+    </div>
   );
 };

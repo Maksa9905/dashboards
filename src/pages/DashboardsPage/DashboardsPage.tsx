@@ -1,8 +1,17 @@
-import { Dashboards } from "#/entities/dashboards";
-import { default as ReactGridLayout, Layout } from "react-grid-layout";
+import {
+  Dashboards,
+  EditWidgetsCard,
+  WidgetsManager,
+} from "#/entities/dashboards";
+import { PageContainer } from "#/shared/ui";
 
 const DashboardsPage = () => {
-  return <Dashboards />;
+  return (
+    <PageContainer>
+      <EditWidgetsCard />
+      <Dashboards />
+    </PageContainer>
+  );
 };
 
 export default DashboardsPage;
