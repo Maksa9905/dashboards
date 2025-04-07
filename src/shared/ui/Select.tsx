@@ -1,40 +1,27 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { SelectOption } from "../model/types";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CustomSelectOption, SelectOption } from "../model/types";
 import Button from "./Button";
-import { ArrowDownIcon, CrossIcon } from "../icons";
+import { ArrowDownIcon } from "../icons";
 
-export interface SelectProps {
+export interface SelectProps<CustomOptions extends boolean> {
   label: string;
   value: string;
-  onChange: (value: string) => void;
-  onChangeOptions?: (options: SelectOption[]) => void;
-  customOptions?: boolean;
-  options: SelectOption[];
+  onChange?: (value: string) => void;
+  customOptions?: CustomOptions;
+  options: CustomOptions extends true ? CustomSelectOption[] : SelectOption[];
 }
 
-const Select = ({
+const Select = <CustomOptions extends boolean>({
   options,
   value,
   onChange,
   customOptions,
-  onChangeOptions,
   label,
-}: SelectProps) => {
+}: SelectProps<CustomOptions>) => {
   const [expanded, setExpanded] = useState(false);
 
   const dropdownRef = useRef<HTMLUListElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const displayLabel = useMemo(
-    () => options.find((option) => option.value === value)?.label,
-    [options, value]
-  );
-
-  const handleRemoveOption = useCallback(() => {
-    onChangeOptions?.(options.filter((option) => option.value !== value));
-  }, [options]);
-
-  const handleAddOption = useCallback(() => {}, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,6 +35,11 @@ const Select = ({
 
     return () => removeEventListener("click", handleClickOutside);
   }, [dropdownRef, buttonRef]);
+
+  const displayLabel = useMemo(
+    () => options.find((option) => option.value === value)?.label,
+    [options, value]
+  );
 
   return (
     <div>
@@ -67,30 +59,18 @@ const Select = ({
           }}
           className="absolute bg-white z-2 p-2 shadow-neutral-12 shadow-sm rounded-medium min-w-[200px] max-h-[160px] overflow-y-scroll scrollbar-thin scrollbar-track-white scrollbar-thumb-neutral-14 scrollbar-hover:scrollbar-thumb-neutral-10"
         >
-          {options.map((option) => (
-            <li
-              key={option.value}
-              className="w-full hover:bg-neutral-17 p-1 flex justify-between items-center cursor-pointer"
-              onClick={() => onChange(option.value)}
-            >
-              {option.label}
-              {customOptions && (
-                <CrossIcon
-                  onClick={() => handleRemoveOption()}
-                  size={16}
-                  color="var(--color-neutral-14)"
-                />
-              )}
-            </li>
-          ))}
-          {customOptions && (
-            <li
-              key="value"
-              className="w-full hover:bg-neutral-17 p-1 cursor-pointer text-center text-primary-2"
-            >
-              New Option
-            </li>
-          )}
+          {!customOptions &&
+            options.map((option) => (
+              <li
+                key={option.value}
+                className="w-full hover:bg-neutral-17 p-1 cursor-pointer"
+                onClick={() => onChange?.(option.value)}
+              >
+                {option.label}
+              </li>
+            ))}
+          {customOptions &&
+            options.map((option) => (option as CustomSelectOption).content)}
         </ul>
       )}
     </div>

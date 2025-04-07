@@ -1,15 +1,18 @@
-import { EditIcon } from "#/shared/icons";
+import { PenIcon } from "#/shared/icons";
 import { Button } from "#/shared/ui";
 import { useUnit } from "effector-react";
 import {
+  $currentTemplateId,
   $editMode,
   resetWidgets,
   saveWidgets,
   setEditMode,
 } from "../model/model";
+import { TemplatesSelect } from "./TemplateSelect";
 
 export const EditWidgetsButtons = () => {
   const isEditing = useUnit($editMode);
+  const templateId = useUnit($currentTemplateId);
 
   if (isEditing)
     return (
@@ -24,12 +27,17 @@ export const EditWidgetsButtons = () => {
     );
 
   return (
-    <Button
-      size="medium"
-      onClick={() => setEditMode(true)}
-      startIcon={EditIcon}
-    >
-      Edit Widgets
-    </Button>
+    <div className="flex gap-2.5">
+      {Boolean(templateId) && (
+        <Button
+          size="medium"
+          onClick={() => setEditMode(true)}
+          startIcon={PenIcon}
+        >
+          Edit Widgets
+        </Button>
+      )}
+      <TemplatesSelect />
+    </div>
   );
 };

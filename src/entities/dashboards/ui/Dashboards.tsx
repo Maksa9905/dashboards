@@ -3,7 +3,12 @@ import { Widget } from "./Widget";
 import { WidgetsManager } from "./WidgetsManager";
 import { useMemo } from "react";
 import { useUnit } from "effector-react";
-import { $editMode, $widgets, setWidgets } from "../model/model";
+import {
+  $currentTemplateId,
+  $editMode,
+  $widgets,
+  setWidgets,
+} from "../model/model";
 import { WidgetLayout } from "../model/types";
 import { mapWidgetToLayout } from "../model/mappers";
 
@@ -12,6 +17,7 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 export const Dashboards = () => {
   const widgets = useUnit($widgets);
   const isEditing = useUnit($editMode);
+  const templateId = useUnit($currentTemplateId);
 
   const layout = useMemo<WidgetLayout[]>(
     () =>

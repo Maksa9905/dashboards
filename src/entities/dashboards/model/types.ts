@@ -19,3 +19,9 @@ export interface WidgetListItem {
 export interface WidgetLayout extends Layout {
   title: string;
 }
+
+export interface Template {
+  name: string;
+  id: string;
+  widgets: Widget[];
+}

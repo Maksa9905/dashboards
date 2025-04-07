@@ -1,15 +1,13 @@
 import { DefaultIconProps } from "../model/types";
 
-const EditIcon = ({ color, size }: DefaultIconProps) => {
+const PenIcon = ({ color, size, ...rest }: DefaultIconProps) => {
   return (
     <svg
+      {...rest}
       width={size}
       height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      style={{
-        color: color,
-        transitionDuration: "200ms",
-      }}
+      viewBox="0 0 16 17"
+      color={color}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -23,4 +21,4 @@ const EditIcon = ({ color, size }: DefaultIconProps) => {
   );
 };
 
-export default EditIcon;
+export default PenIcon;

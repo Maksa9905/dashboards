@@ -11,3 +11,9 @@ export { default as PageContainer } from "./PageContainer";
 
 export { default as Select } from "./Select";
 export type { SelectProps } from "./Select";
+
+export { default as IconButton } from "./IconButton";
+export type { IconButtonProps } from "./IconButton";
+
+export { default as Modal } from "./Modal";
+export type { ModalProps } from "./Modal";
